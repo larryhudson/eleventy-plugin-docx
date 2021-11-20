@@ -3,7 +3,7 @@ const cheerio = require('cheerio')
 const lodashMerge = require('lodash.merge')
 
 const globalOptions = {
-    njkLayout: 'layouts/docx.njk',
+    layout: 'layouts/docx.njk',
     cheerioTransform: null,
     mammothConfig: {}
   };
@@ -17,7 +17,7 @@ module.exports = function(eleventyConfig, configGlobalOptions = {}) {
     eleventyConfig.addExtension('docx', {
         getData: function() {
             return {
-                layout: options.njkLayout
+                layout: options.layout
             }
         },
         compile: function(str, inputPath) {
