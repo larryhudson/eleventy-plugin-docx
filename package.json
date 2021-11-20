@@ -1,6 +1,6 @@
 {
   "name": "eleventy-plugin-docx",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Use Word documents as Eleventy input",
   "main": ".eleventy.js",
   "scripts": {
