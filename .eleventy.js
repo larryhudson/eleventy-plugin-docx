@@ -4,7 +4,7 @@ const lodashMerge = require('lodash.merge')
 
 const globalOptions = {
     njkLayout: 'layouts/docx.njk',
-    customTransform: null,
+    cheerioTransform: null,
     mammothConfig: {}
   };
 
@@ -25,9 +25,9 @@ module.exports = function(eleventyConfig, configGlobalOptions = {}) {
 
                 const rawHtml = await mammoth.convertToHtml({path: inputPath}, options.mammothConfig).then(result => result.value)
 
-                if (options.customTransform) {
+                if (options.cheerioTransform) {
                     const $ = cheerio.load(rawHtml)
-                    options.customTransform($)
+                    options.cheerioTransform($)
                     return $('body').html();
                 } else {
                     return rawHtml
