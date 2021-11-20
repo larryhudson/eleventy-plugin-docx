@@ -33,6 +33,17 @@ module.exports = function(eleventyConfig) {
   };
 ```
 
+### Add a layout for docx files
+
+By default, the plugin will try to use `layouts/docx.njk` as the layout for docx files in the Eleventy site's input directory.
+
+The docx content is rendered in the template using `{{content|safe}}`.
+
+You can either:
+- make a layout at `layouts/docx.njk`
+- adjust the layout path using the plugin's configuration option - see below.
+
+
 ### Use configuration options
 
 ```js
