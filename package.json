@@ -6,9 +6,29 @@
   "scripts": {
     "sample": "npx @11ty/eleventy --input=test/sample"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "eleventy",
+    "eleventy-plugin",
+    "docx"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/larryhudson/eleventy-plugin-docx.git"
+  },
+  "author": {
+    "name": "Larry Hudson",
+    "email": "larryhudson@hey.com",
+    "url": "https://www.larryhudson.io"
+  },
+  
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/larryhudson/eleventy-plugin-docx/issues"
+  },
+  "homepage": "https://github.com/larryhudson/eleventy-plugin-docx#readme",
   "dependencies": {
     "@11ty/eleventy": "^1.0.0-beta.8",
     "cheerio": "^1.0.0-rc.10",
