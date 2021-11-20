@@ -14,10 +14,10 @@ This is compatible with Eleventy 1.0.0 beta 8 and newer.
 
 ## Installation
 
-This hasn't been published as an NPM package yet, so you need to install it using this GitHub address:
+Install using npm:
 
 ```bash
-npm install https://github.com/larryhudson/eleventy-plugin-docx
+npm i eleventy-plugin-docx
 ```
 
 ## Usage
