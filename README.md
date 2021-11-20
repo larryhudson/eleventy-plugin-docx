@@ -84,6 +84,22 @@ module.exports = function(eleventyConfig) {
   };
 ```
 
+## Using with `eleventy-plugin-render`
+
+This plugin pairs nicely with the new `eleventy-plugin-render`, which gives you a shortcode to render files inside templates.
+
+To use with `eleventy-plugin-render`:
+1. Make sure you're using Eleventy 1.0.0 beta 7 or newer.
+2. add `eleventy-plugin-render` to your Eleventy config following [the plugin's installation instructions](https://www.11ty.dev/docs/plugins/render/):
+3. use the `renderFile` shortcode wherever you want (in Markdown files, Nunjucks templates etc.):
+
+```
+{% renderFile './src/word-document.docx' %}
+```
+
+Note: the file path is relative to the project root folder.
+
+
 ## To do list
 
 This plugin needs some work:
