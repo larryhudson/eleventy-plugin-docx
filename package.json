@@ -5,7 +5,7 @@
   "main": ".eleventy.js",
   "scripts": {
     "sample": "npx @11ty/eleventy --input=test/sample",
-    "sample-data-casade"
+    "sample-data-casade": "npx @11ty/eleventy --input=test/sample-data-cascade"
   },
   "publishConfig": {
     "access": "public",
