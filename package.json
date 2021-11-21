@@ -1,10 +1,11 @@
 {
   "name": "eleventy-plugin-docx",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Use Word documents as Eleventy input",
   "main": ".eleventy.js",
   "scripts": {
-    "sample": "npx @11ty/eleventy --input=test/sample"
+    "sample": "npx @11ty/eleventy --input=test/sample",
+    "sample-data-casade"
   },
   "publishConfig": {
     "access": "public",
