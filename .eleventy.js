@@ -1,19 +1,29 @@
 const mammoth = require('mammoth')
 const cheerio = require('cheerio')
 const lodashMerge = require('lodash.merge')
+const path = require('path')
+const fs = require('fs')
+const md5 = require('js-md5')
+const fsPromises = require('fs/promises')
 
-const globalOptions = {
-    layout: 'layouts/docx.njk',
-    useGlobalLayout: true,
-    cheerioTransform: null,
-    mammothConfig: {}
-  };
+module.exports = function(eleventyConfig, suppliedOptions) {
 
-module.exports = function(eleventyConfig, configGlobalOptions = {}) {
+    const defaultOptions = {
+        layout: 'layouts/docx.njk',
+        outputDir: eleventyConfig.dir?.output || '_site',
+        imageDir: 'images',
+        useGlobalLayout: true,
+        cheerioTransform: null,
+        mammothConfig: {}
+      };
+
     // Return your Object options:
-    let options = lodashMerge({}, globalOptions, configGlobalOptions);
+    let options = lodashMerge({}, defaultOptions, suppliedOptions);
 
     eleventyConfig.addTemplateFormats("docx");
+
+    // ignore temporary files
+    eleventyConfig.ignores.add('**/~*.docx') 
 
     eleventyConfig.addExtension('docx', {
         getData: function() {
@@ -35,6 +45,56 @@ module.exports = function(eleventyConfig, configGlobalOptions = {}) {
 
                 const mammothConfig = data.mammothConfig ? data.mammothConfig : options.mammothConfig
                 const cheerioTransform = data.cheerioTransform ? data.cheerioTransform : options.cheerioTransform
+
+                const imageSubfolderName = data.page.fileSlug
+                const imageNamePrefix = data.page.fileSlug
+
+                if (!mammothConfig.convertImage) {
+                    var imageCounter = 1
+                    var imageSrcByHash = {};
+
+                    mammothConfig.convertImage = mammoth.images.imgElement(async function(image) {
+                    
+                        const imageBuffer = await image.read();
+                        const imageHash = md5(imageBuffer);
+                        // check if image hash is already in our saved hashes.
+                        // if it is, we return the saved src
+                        if (imageSrcByHash[imageHash]) {
+                            return {
+                                src: imageSrcByHash[imageHash]
+                            };
+                        }
+
+                        // no saved image hash - write new image file
+                        const imageExt = image.contentType.split('/').pop();
+
+                        const imageDir = path.join(options.outputDir, options.imageDir, imageSubfolderName)
+    
+                        if (!fs.existsSync(imageDir)) {
+                            await fsPromises.mkdir(imageDir, {recursive: true})
+                        }
+    
+                        const imageSrcDir = options.imageDir;
+                        const imageFilename = `${imageNamePrefix ? imageNamePrefix + '_' : ''}image${imageCounter}.${imageExt}`;
+                        const imageFilePath = path.join(imageDir, imageFilename);
+
+                        fs.writeFile(imageFilePath, imageBuffer, 'base64', function (err) {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                console.log(`Saved image file: ${imageFilePath}`);
+                            }
+                        });
+                        imageCounter++;
+
+                        // save this src and hash to our saved hashes
+                        const src = `${imageSrcDir}/${imageFilename}`;
+                        imageSrcByHash[imageHash] = src;
+                        return {
+                            src
+                        };
+                      })
+                }
 
                 const rawHtml = await mammoth.convertToHtml({path: inputPath}, mammothConfig).then(result => result.value)
 
