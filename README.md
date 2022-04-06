@@ -150,9 +150,3 @@ To use with `eleventy-plugin-render`:
 ```
 
 Note: the file path is relative to the project root folder.
-
-
-## To do list
-
-This plugin needs some work:
-- **image handling** - need to set up default behaviour to copy image files through to output directory
